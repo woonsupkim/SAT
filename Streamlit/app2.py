@@ -6,13 +6,9 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
 import os
 
-# Debugging information to check file paths
-current_dir = os.getcwd()
-st.write(f"Current Directory: {current_dir}")
-st.write(f"Files in Current Directory: {os.listdir(current_dir)}")
 
 def load_data(subject):
-    file_path = 'SAT_math.csv' if subject == 'math' else 'SAT_reading.csv'
+    file_path = 'SAT/SAT_math.csv' if subject == 'math' else 'SAT/SAT_reading.csv'
     
     if not os.path.isfile(file_path):
         st.error(f"File {file_path} not found. Please ensure the file is uploaded.")
@@ -173,7 +169,7 @@ def study_subject(subject):
             'User Answer': user_answers,
             'Time Taken (seconds)': answer_times
         })
-        results_df.to_csv('user_results.csv', index=False)
+        results_df.to_csv('SAT/user_results.csv', index=False)
 
         st.session_state.current_question_index = suggest_next_question(df, user_answers, answer_times)
         st.session_state.start_time = time.time()
