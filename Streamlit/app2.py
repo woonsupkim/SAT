@@ -75,10 +75,29 @@ def main():
             border-radius: 10px;
             font-size: 18px;
             display: flex;
-            align-items: center.
+            align-items: center;
         }
         .stButton button:hover {
             background-color: #2980b9;
+        }
+        .stProgress > div > div > div > div {
+            background-color: #3498db;
+        }
+        .stButton button img {
+            margin-right: 10px;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 5px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            background-color: #34495e;
+            width: 150px;
+            margin: 0 auto;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -105,6 +124,7 @@ def reset_session_state(subject):
     st.session_state.start_time = time.time()
     st.session_state.elapsed_time = 0
     st.session_state.timer_running = True
+    st.session_state.show_explanation = False
     st.session_state.questions_answered = 0
 
 def display_home():
@@ -186,6 +206,7 @@ def study_subject(subject):
     start_time = st.session_state.start_time
     elapsed_time = st.session_state.elapsed_time
     timer_running = st.session_state.timer_running
+    show_explanation = st.session_state.show_explanation
 
     # Timer display
     if timer_running:
@@ -215,8 +236,9 @@ def study_subject(subject):
         handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer)
         st.experimental_rerun()
 
-    with st.expander("Explanation"):
-        st.markdown(explanation_html, unsafe_allow_html=True)
+    if show_explanation:
+        with st.expander("Explanation"):
+            st.markdown(explanation_html, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -281,6 +303,7 @@ def handle_answer_submission(df, current_question_index, answer, elapsed_time, l
     st.session_state.start_time = time.time()
     st.session_state.elapsed_time = 0
     st.session_state.timer_running = True
+    st.session_state.show_explanation = False
 
 def retrain_model_if_needed():
     if len(st.session_state.y_train.unique()) > 1:
