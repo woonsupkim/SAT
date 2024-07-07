@@ -80,6 +80,7 @@ def main():
     
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
+        st.markdown("This SAT study platform helps users practice math and reading/writing skills by presenting questions with images. It tracks time spent, records answers, and provides explanations. A machine learning model suggests the next question based on user performance. The app adapts to individual learning needs and offers an engaging user interface.")
         
         st.markdown("### Select the subject you want to study:")
 
