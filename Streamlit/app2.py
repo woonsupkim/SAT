@@ -75,12 +75,22 @@ def main():
     </style>
     """, unsafe_allow_html=True)
 
-    if 'page' not in st.session_state:
+    st.sidebar.title("Navigation")
+    st.sidebar.markdown("Use the navigation below to switch between sections.")
+    nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
+
+    if nav_option == "Home":
         st.session_state.page = 'home'
+    elif nav_option == "Math Section":
+        st.session_state.page = 'math'
+    elif nav_option == "Reading and Writing Section":
+        st.session_state.page = 'reading_writing'
+    elif nav_option == "User Feedback":
+        st.session_state.page = 'feedback'
     
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
-        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs..")
+        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
         
         st.markdown("### Select the subject you want to study:")
 
@@ -97,11 +107,16 @@ def main():
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.rerun()
-                
+
     elif st.session_state.page == 'math':
         study_subject('math')
     elif st.session_state.page == 'reading_writing':
         study_subject('reading_writing')
+    elif st.session_state.page == 'feedback':
+        st.header("User Feedback")
+        feedback = st.text_area("Please provide your feedback below:")
+        if st.button("Submit Feedback"):
+            st.success("Thank you for your feedback!")
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
@@ -145,6 +160,8 @@ def study_subject(subject):
         st.title("Math Section")
     else:
         st.title("Reading and Writing Section")
+
+    st.progress(int((st.session_state.questions_answered / len(st.session_state.df)) * 100))
 
     if st.button("Back to Home"):
         st.session_state.page = 'home'
