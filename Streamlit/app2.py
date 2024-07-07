@@ -106,9 +106,6 @@ def main():
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
 
-        st.sidebar.title("Navigation")
-        st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"], index=0)
-
     elif st.session_state.page == 'math':
         study_subject('math')
     elif st.session_state.page == 'reading_writing':
