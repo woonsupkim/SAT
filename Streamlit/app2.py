@@ -77,26 +77,10 @@ def main():
 
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
-    if 'subject' not in st.session_state:
-        st.session_state.subject = None
-
-    st.sidebar.title("Navigation")
-    nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
-
-    if nav_option == "Home":
-        st.session_state.page = 'home'
-    elif nav_option == "Math Section":
-        st.session_state.page = 'math'
-        st.session_state.subject = 'math'
-    elif nav_option == "Reading and Writing Section":
-        st.session_state.page = 'reading_writing'
-        st.session_state.subject = 'reading_writing'
-    elif nav_option == "User Feedback":
-        st.session_state.page = 'feedback'
     
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
-        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
+        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs..")
         
         st.markdown("### Select the subject you want to study:")
 
@@ -105,24 +89,19 @@ def main():
         with col1:
             if st.button("Math"):
                 st.session_state.page = 'math'
-                st.session_state.subject = 'math'
                 reset_session_state('math')
-                st.experimental_rerun()
+                st.rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
-                st.session_state.subject = 'reading_writing'
                 reset_session_state('reading_writing')
-                st.experimental_rerun()
-
-    elif st.session_state.page == 'math' or st.session_state.page == 'reading_writing':
-        study_subject(st.session_state.subject)
-    elif st.session_state.page == 'feedback':
-        st.header("User Feedback")
-        feedback = st.text_area("Please provide your feedback below:")
-        if st.button("Submit Feedback"):
-            st.success("Thank you for your feedback!")
+                st.rerun()
+                
+    elif st.session_state.page == 'math':
+        study_subject('math')
+    elif st.session_state.page == 'reading_writing':
+        study_subject('reading_writing')
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
@@ -167,13 +146,11 @@ def study_subject(subject):
     else:
         st.title("Reading and Writing Section")
 
-    st.progress(int((st.session_state.questions_answered / len(st.session_state.df)) * 100))
-
     if st.button("Back to Home"):
         st.session_state.page = 'home'
-        st.experimental_rerun()
+        st.rerun()
 
-    if 'current_question_index' not in st.session_state or st.session_state.subject != subject:
+    if 'current_question_index' not in st.session_state:
         reset_session_state(subject)
 
     df = st.session_state.df
@@ -246,7 +223,7 @@ def study_subject(subject):
         st.session_state.elapsed_time = 0
         st.session_state.timer_running = True
         st.session_state.show_explanation = False
-        st.experimental_rerun()
+        st.rerun()
 
     if show_explanation_btn:
         st.session_state.show_explanation = True
@@ -263,7 +240,7 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
-        st.experimental_rerun()
+        st.rerun()
 
 if __name__ == "__main__":
     main()
