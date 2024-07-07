@@ -77,35 +77,10 @@ def main():
 
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
-    if 'subject' not in st.session_state:
-        st.session_state.subject = None
-
-    # Sidebar
-    st.sidebar.title("Navigation")
-    nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
-
-    if nav_option == "Home":
-        st.session_state.page = 'home'
-    elif nav_option == "Math Section":
-        st.session_state.page = 'math'
-        st.session_state.subject = 'math'
-    elif nav_option == "Reading and Writing Section":
-        st.session_state.page = 'reading_writing'
-        st.session_state.subject = 'reading_writing'
-    elif nav_option == "User Feedback":
-        st.session_state.page = 'feedback'
     
-    st.sidebar.title("Additional Options")
-    st.sidebar.markdown("Use this sidebar for additional options and information.")
-
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
-        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
-        st.markdown("### Instructions")
-        st.markdown("1. Select the subject you want to study.")
-        st.markdown("2. Answer the questions presented.")
-        st.markdown("3. View explanations after answering.")
-        st.markdown("4. Use the navigation bar to switch sections or provide feedback.")
+        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs..")
         
         st.markdown("### Select the subject you want to study:")
 
@@ -114,26 +89,19 @@ def main():
         with col1:
             if st.button("Math"):
                 st.session_state.page = 'math'
-                st.session_state.subject = 'math'
                 reset_session_state('math')
                 st.experimental_rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
-                st.session_state.subject = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
-
-    elif st.session_state.page == 'math' or st.session_state.page == 'reading_writing':
-        if st.session_state.subject:
-            study_subject(st.session_state.subject)
-    
-    elif st.session_state.page == 'feedback':
-        st.header("User Feedback")
-        feedback = st.text_area("Please provide your feedback below:")
-        if st.button("Submit Feedback"):
-            st.success("Thank you for your feedback!")
+                
+    elif st.session_state.page == 'math':
+        study_subject('math')
+    elif st.session_state.page == 'reading_writing':
+        study_subject('reading_writing')
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
@@ -178,14 +146,11 @@ def study_subject(subject):
     else:
         st.title("Reading and Writing Section")
 
-    progress = int((st.session_state.questions_answered / len(st.session_state.df)) * 100)
-    st.progress(progress)
-
     if st.button("Back to Home"):
         st.session_state.page = 'home'
         st.experimental_rerun()
 
-    if 'current_question_index' not in st.session_state or st.session_state.subject != subject:
+    if 'current_question_index' not in st.session_state:
         reset_session_state(subject)
 
     df = st.session_state.df
@@ -200,6 +165,12 @@ def study_subject(subject):
     elapsed_time = st.session_state.elapsed_time
     timer_running = st.session_state.timer_running
     show_explanation = st.session_state.show_explanation
+
+    # Progress bar
+    total_questions = len(df)
+    questions_answered = st.session_state.questions_answered
+    progress = (questions_answered / total_questions) * 100
+    st.progress(progress)
 
     question_html = get_image_html(questions[current_question_index])
     explanation_html = get_image_html(explanations[current_question_index])
