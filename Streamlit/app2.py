@@ -237,7 +237,7 @@ def study_subject(subject):
         st.experimental_rerun()
 
     if show_explanation:
-        with st.expander("Explanation", expanded=True):
+        with st.expander("Explanation", expanded=False):
             st.markdown(explanation_html, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
