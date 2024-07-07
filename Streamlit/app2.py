@@ -232,9 +232,14 @@ def study_subject(subject):
         answer = st.text_input("Your Answer:", value="", key="answer_input")
         submit = st.form_submit_button("Submit 📨")
 
+    show_explanation_btn = st.button("Show Explanation 📜", key="show_explanation_btn")
+
     if submit:
         handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer)
         st.experimental_rerun()
+
+    if show_explanation_btn:
+        st.session_state.show_explanation = True
 
     if show_explanation:
         with st.expander("Explanation"):
