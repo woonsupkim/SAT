@@ -72,6 +72,9 @@ def main():
         .stButton button:hover {
             background-color: #2980b9;
         }
+        .stProgress > div > div > div > div {
+            background-color: #3498db;
+        }
     </style>
     """, unsafe_allow_html=True)
 
