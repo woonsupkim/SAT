@@ -61,7 +61,7 @@ def main():
         st.markdown("""
         <style>
             .main {
-                background-color: #f0f2f6;
+                background-color: #ffffff;
                 padding: 20px;
             }
             .stButton button {
@@ -116,6 +116,23 @@ def reset_session_state(subject):
     st.session_state.questions_answered = 0
 
 def study_subject(subject):
+    st.markdown("""
+    <style>
+        .stButton button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .stButton button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     if subject == 'math':
         st.title("Math Section")
     else:
