@@ -63,11 +63,14 @@ def main():
         .stButton button {
             background-color: #3498db;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 30px;
             margin: 10px;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
         }
         .stButton button:hover {
             background-color: #2980b9;
@@ -75,26 +78,7 @@ def main():
         .stProgress > div > div > div > div {
             background-color: #3498db;
         }
-        .subject-btn {
-            display: block;
-            width: 100%;
-            background-color: #3498db;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 1.5em;
-            border: none;
-            cursor: pointer;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .subject-btn:hover {
-            background-color: #2980b9;
-        }
-        .subject-icon {
-            width: 50px;
-            height: 50px;
-            vertical-align: middle;
+        .stButton button img {
             margin-right: 10px;
         }
     </style>
@@ -121,40 +105,18 @@ def main():
         col1, col2 = st.columns(2)
 
         with col1:
-            math_button = st.markdown("""
-            <button class="subject-btn" onclick="MathSelected()">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/calculator.png" class="subject-icon"/> Math
-            </button>
-            <script>
-                function MathSelected() {
-                    document.getElementById("math").click();
-                }
-            </script>
-            <button id="math" style="display: none;">Math</button>
-            """, unsafe_allow_html=True)
-            if math_button:
+            if st.button("Math 🧮"):
                 st.session_state.page = 'math'
                 reset_session_state('math')
                 st.experimental_rerun()
-
+                
         with col2:
-            reading_button = st.markdown("""
-            <button class="subject-btn" onclick="ReadingSelected()">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/book.png" class="subject-icon"/> Reading and Writing
-            </button>
-            <script>
-                function ReadingSelected() {
-                    document.getElementById("reading").click();
-                }
-            </script>
-            <button id="reading" style="display: none;">Reading and Writing</button>
-            """, unsafe_allow_html=True)
-            if reading_button:
+            if st.button("Reading and Writing 📖"):
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
 
-        if st.button("User Feedback"):
+        if st.button("User Feedback 📝"):
             st.session_state.page = 'feedback'
             st.experimental_rerun()
 
@@ -191,11 +153,14 @@ def study_subject(subject):
         .stButton button {
             background-color: #3498db;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 30px;
             margin: 10px;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
         }
         .stButton button:hover {
             background-color: #2980b9;
@@ -208,7 +173,7 @@ def study_subject(subject):
     else:
         st.title("Reading and Writing Section")
 
-    if st.button("Back to Home"):
+    if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
         st.experimental_rerun()
 
@@ -241,9 +206,9 @@ def study_subject(subject):
 
     with st.form(key='answer_form'):
         answer = st.text_input("Your Answer:", value="", key="answer_input")
-        submit = st.form_submit_button("Submit")
+        submit = st.form_submit_button("Submit 📨")
 
-    show_explanation_btn = st.button("Show Explanation", key="show_explanation_btn")
+    show_explanation_btn = st.button("Show Explanation 📜", key="show_explanation_btn")
 
     if submit:
         user_answers[current_question_index] = answer
@@ -313,11 +278,11 @@ def study_subject(subject):
 def user_feedback():
     st.header("User Feedback")
     feedback = st.text_area("Please provide your feedback below:")
-    if st.button("Submit Feedback"):
+    if st.button("Submit Feedback 📤"):
         with open("feedback.txt", "a") as f:
             f.write(feedback + "\n")
         st.success("Thank you for your feedback!")
-    if st.button("Back to Home"):
+    if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
         st.experimental_rerun()
 
