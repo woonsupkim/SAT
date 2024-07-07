@@ -4,12 +4,16 @@ import time
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
+import os
 
 def load_data(subject):
-    if subject == 'math':
-        df = pd.read_csv('SAT_math.csv')
-    else:
-        df = pd.read_csv('SAT_reading.csv')
+    file_path = 'SAT_math.csv' if subject == 'math' else 'SAT_reading.csv'
+    
+    if not os.path.isfile(file_path):
+        st.error(f"File {file_path} not found. Please ensure the file is uploaded.")
+        st.stop()
+
+    df = pd.read_csv(file_path)
 
     le_skill = LabelEncoder()
     le_difficulty = LabelEncoder()
