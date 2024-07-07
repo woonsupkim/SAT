@@ -80,13 +80,17 @@ def main():
 
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
+    if 'subject' not in st.session_state:
+        st.session_state.subject = None
     
     if nav_option == "Home":
         st.session_state.page = 'home'
     elif nav_option == "Math Section":
         st.session_state.page = 'math'
+        st.session_state.subject = 'math'
     elif nav_option == "Reading and Writing Section":
         st.session_state.page = 'reading_writing'
+        st.session_state.subject = 'reading_writing'
     elif nav_option == "User Feedback":
         st.session_state.page = 'feedback'
     
@@ -101,12 +105,14 @@ def main():
         with col1:
             if st.button("Math"):
                 st.session_state.page = 'math'
+                st.session_state.subject = 'math'
                 reset_session_state('math')
                 st.rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
+                st.session_state.subject = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.rerun()
 
@@ -169,7 +175,7 @@ def study_subject(subject):
         st.session_state.page = 'home'
         st.rerun()
 
-    if 'current_question_index' not in st.session_state:
+    if 'current_question_index' not in st.session_state or st.session_state.subject != subject:
         reset_session_state(subject)
 
     df = st.session_state.df
