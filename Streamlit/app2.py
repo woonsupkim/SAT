@@ -53,31 +53,32 @@ def suggest_next_question(df, user_answers, elapsed_time):
 def main():
     st.set_page_config(page_title="SAT Study Platform", page_icon="🎓", layout="centered")
 
+    st.markdown("""
+    <style>
+        .main {
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        .stButton button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .stButton button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
     
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
-        st.markdown("""
-        <style>
-            .main {
-                background-color: #ffffff;
-                padding: 20px;
-            }
-            .stButton button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                margin: 10px;
-                border: none;
-                cursor: pointer;
-                border-radius: 5px;
-            }
-            .stButton button:hover {
-                background-color: #45a049;
-            }
-        </style>
-        """, unsafe_allow_html=True)
         
         st.markdown("### Select the subject you want to study:")
 
@@ -116,23 +117,6 @@ def reset_session_state(subject):
     st.session_state.questions_answered = 0
 
 def study_subject(subject):
-    st.markdown("""
-    <style>
-        .stButton button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .stButton button:hover {
-            background-color: #45a049;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
     if subject == 'math':
         st.title("Math Section")
     else:
