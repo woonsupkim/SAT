@@ -76,6 +76,28 @@ def main():
         .stProgress > div > div > div > div {
             background-color: #3498db;
         }
+        .subject-btn {
+            display: block;
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .subject-btn:hover {
+            background-color: #2980b9;
+        }
+        .subject-icon {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -100,81 +122,33 @@ def main():
         col1, col2 = st.columns(2)
 
         with col1:
-            st.markdown("""
-            <style>
-                .subject-btn {
-                    display: block;
-                    width: 100%;
-                    background-color: #3498db;
-                    color: white;
-                    padding: 20px;
-                    text-align: center;
-                    font-size: 1.5em;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 10px;
-                    margin-top: 20px;
-                }
-                .subject-btn:hover {
-                    background-color: #2980b9;
-                }
-                .subject-icon {
-                    width: 50px;
-                    height: 50px;
-                    vertical-align: middle;
-                    margin-right: 10px;
-                }
-            </style>
+            if st.markdown("""
             <button class="subject-btn" onclick="MathSelected()">
                 <img src="https://img.icons8.com/ios-filled/50/ffffff/calculator.png" class="subject-icon"/> Math
             </button>
             <script>
                 function MathSelected() {
-                    fetch('/?subject=math', {method: 'POST'});
+                    document.getElementById("math").click();
                 }
             </script>
-            """, unsafe_allow_html=True)
-            if st.button("Math"):
+            <button id="math" style="display: none;">Math</button>
+            """, unsafe_allow_html=True):
                 st.session_state.page = 'math'
                 reset_session_state('math')
                 st.experimental_rerun()
 
         with col2:
-            st.markdown("""
-            <style>
-                .subject-btn {
-                    display: block;
-                    width: 100%;
-                    background-color: #3498db;
-                    color: white;
-                    padding: 20px;
-                    text-align: center;
-                    font-size: 1.5em;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 10px;
-                    margin-top: 20px;
-                }
-                .subject-btn:hover {
-                    background-color: #2980b9;
-                }
-                .subject-icon {
-                    width: 50px;
-                    height: 50px;
-                    vertical-align: middle;
-                    margin-right: 10px;
-                }
-            </style>
+            if st.markdown("""
             <button class="subject-btn" onclick="ReadingSelected()">
                 <img src="https://img.icons8.com/ios-filled/50/ffffff/book.png" class="subject-icon"/> Reading and Writing
             </button>
             <script>
                 function ReadingSelected() {
-                    fetch('/?subject=reading', {method: 'POST'});
+                    document.getElementById("reading").click();
                 }
             </script>
-            """, unsafe_allow_html=True)
-            if st.button("Reading and Writing"):
+            <button id="reading" style="display: none;">Reading and Writing</button>
+            """, unsafe_allow_html=True):
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
