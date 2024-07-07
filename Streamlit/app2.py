@@ -84,10 +84,11 @@ def main():
         
         st.markdown("### Instructions")
         st.markdown("""
-        1. Select the subject you want to study.
+        1. Select the subject you want to study by clicking on the "Math" or "Reading and Writing" button.
         2. Answer the questions presented.
-        3. View explanations after answering.
-        4. Use the navigation bar to switch sections or provide feedback.
+        3. View explanations after answering by clicking on "Show Explanation".
+        4. Track your progress with the progress bar at the top.
+        5. Provide feedback by clicking on the "User Feedback" button.
         """)
         
         st.markdown("### Select the subject you want to study:")
