@@ -1,0 +1,142 @@
+document.addEventListener('DOMContentLoaded', () => {
+    let currentQuestionIndex = 0;
+    let timer;
+    let timeElapsed = 0;
+
+    const questionImage = document.getElementById('question-image');
+    const answerForm = document.getElementById('answer-form');
+    const feedback = document.getElementById('feedback');
+    const correctAnswerDiv = document.getElementById('correct-answer');
+    const nextButton = document.getElementById('next-question');
+    const showExplanationButton = document.getElementById('show-explanation');
+    const timeDisplay = document.getElementById('time-elapsed');
+    const explanationSection = document.getElementById('explanation-section');
+    const explanationImage = document.getElementById('explanation-image');
+
+    let userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
+    let answerTimes = JSON.parse(localStorage.getItem('answerTimes')) || [];
+
+    function loadQuestion(index) {
+        fetchNextQuestion(index);
+    }
+
+    answerForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const userAnswer = event.target.answer.value.trim();
+
+        // Stop the timer and save the time elapsed
+        clearInterval(timer);
+        answerTimes[currentQuestionIndex] = timeElapsed;
+
+        userAnswers[currentQuestionIndex] = userAnswer;
+        localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+        localStorage.setItem('answerTimes', JSON.stringify(answerTimes));
+
+        if (userAnswer) {
+            feedback.textContent = `Your answer has been submitted! Time taken: ${timeElapsed} seconds`;
+
+            // Send the answer to the server to get the correct answer
+            submitAnswer(userAnswer, timeElapsed);
+        } else {
+            feedback.textContent = 'Please enter an answer.';
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        loadQuestion(currentQuestionIndex);
+    });
+
+    showExplanationButton.addEventListener('click', () => {
+        displayExplanation();
+    });
+
+    function fetchNextQuestion(index) {
+        fetch('http://localhost:5000/next-question', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                current_question_index: index,
+                user_answers: userAnswers,
+                answer_times: answerTimes
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            currentQuestionIndex = data.next_question_index;
+            const base64Image = data.next_question_base64;
+            questionImage.src = `data:image/png;base64,${base64Image}`;
+            feedback.textContent = '';
+            correctAnswerDiv.textContent = '';
+            answerForm.answer.value = userAnswers[currentQuestionIndex] || '';
+            explanationSection.style.display = 'none';
+
+            // Reset and start the timer
+            clearInterval(timer);
+            timeElapsed = 0;
+            timeDisplay.textContent = timeElapsed;
+            timer = setInterval(() => {
+                timeElapsed++;
+                timeDisplay.textContent = timeElapsed;
+            }, 1000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function submitAnswer(userAnswer, timeElapsed) {
+        fetch('http://localhost:5000/submit-answer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                question_index: currentQuestionIndex,
+                user_answer: userAnswer,
+                time_elapsed: timeElapsed
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const correctAnswer = data.correct_answer;
+            const timeTaken = data.time_elapsed;
+
+            correctAnswerDiv.textContent = `Correct Answer: ${correctAnswer}, Time taken: ${timeTaken} seconds`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function sendResultsToServer() {
+        fetch('http://localhost:5000/save-results', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_answers: userAnswers,
+                answer_times: answerTimes
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Results saved successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error saving results:', error);
+        });
+    }
+
+    function displayExplanation() {
+        // Fetch the explanation image from the server if necessary
+        // Currently placeholder for the explanation image
+        explanationImage.src = explanations[currentQuestionIndex];
+        explanationSection.style.display = 'block';
+    }
+
+    loadQuestion(currentQuestionIndex);
+});

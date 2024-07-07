@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAT Study Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>SAT Study Platform</h1>
+    </header>
+    <main>
+        <section id="question-section">
+            <div id="question-container">
+                <img id="question-image" src="" alt="SAT Question">
+            </div>
+            <div id="answer-container">
+                <form id="answer-form">
+                    <label for="answer">Your Answer:</label>
+                    <input type="text" id="answer" name="answer" aria-label="Your Answer">
+                    <button type="submit">Submit</button>
+                </form>
+                <div id="feedback" role="alert"></div>
+            </div>
+            <div id="timer">Time: <span id="time-elapsed">0</span> seconds</div>
+        </section>
+        <section id="navigation">
+            <button id="next-question">Next</button>
+            <button id="show-explanation">Show Explanation</button>
+        </section>
+        <section id="explanation-section" style="display: none;">
+            <h2>Solution Explanation</h2>
+            <div id="explanation-container">
+                <img id="explanation-image" src="" alt="Solution Explanation">
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
