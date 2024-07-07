@@ -232,14 +232,9 @@ def study_subject(subject):
         answer = st.text_input("Your Answer:", value="", key="answer_input")
         submit = st.form_submit_button("Submit 📨")
 
-    show_explanation_btn = st.button("Show Explanation 📜", key="show_explanation_btn")
-
     if submit:
         handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer)
         st.experimental_rerun()
-
-    if show_explanation_btn:
-        st.session_state.show_explanation = True
 
     if show_explanation:
         with st.expander("Explanation"):
@@ -321,11 +316,36 @@ def retrain_model_if_needed():
 
 def user_feedback():
     st.header("User Feedback")
-    feedback = st.text_area("Please provide your feedback below:")
+
+    st.markdown("### How would you rate your overall experience?")
+    rating = st.select_slider("Rate from 1 to 5", options=[1, 2, 3, 4, 5], value=3)
+    
+    st.markdown("### What aspects did you like the most?")
+    liked_aspects = st.multiselect("Select all that apply", 
+                                   ["Ease of use", "Question quality", "Explanations", "Adaptive learning", "Visual design", "Other"])
+    
+    st.markdown("### What aspects did you dislike or have trouble with?")
+    disliked_aspects = st.multiselect("Select all that apply", 
+                                      ["Navigation", "Question clarity", "Explanations clarity", "Technical issues", "Other"])
+
+    additional_feedback = st.text_area("Additional feedback:")
+    
+    st.markdown("### Upload screenshots or additional files (if any)")
+    uploaded_files = st.file_uploader("Choose files", accept_multiple_files=True)
+    
     if st.button("Submit Feedback 📤"):
+        feedback_data = {
+            "rating": rating,
+            "liked_aspects": liked_aspects,
+            "disliked_aspects": disliked_aspects,
+            "additional_feedback": additional_feedback,
+            "uploaded_files": [file.name for file in uploaded_files] if uploaded_files else []
+        }
+
         with open("feedback.txt", "a") as f:
-            f.write(feedback + "\n")
+            f.write(str(feedback_data) + "\n")
         st.success("Thank you for your feedback!")
+
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
         st.experimental_rerun()
