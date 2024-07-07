@@ -242,7 +242,20 @@ def study_subject(subject):
         st.session_state.show_explanation = True
 
     if show_explanation:
-        st.markdown(explanation_html, unsafe_allow_html=True)
+        with st.expander("Explanation"):
+            st.markdown(explanation_html, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous Question"):
+            st.session_state.current_question_index = (current_question_index - 1) % len(df)
+            st.session_state.show_explanation = False
+            st.experimental_rerun()
+    with col2:
+        if st.button("Next Question"):
+            st.session_state.current_question_index = (current_question_index + 1) % len(df)
+            st.session_state.show_explanation = False
+            st.experimental_rerun()
 
     if timer_running:
         time.sleep(1)
