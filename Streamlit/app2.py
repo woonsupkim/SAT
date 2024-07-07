@@ -72,74 +72,51 @@ def main():
         .stButton button:hover {
             background-color: #2980b9;
         }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #3498db;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-        }
-        .navbar a:hover {
-            background-color: #2980b9;
-        }
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="navbar">
-        <a href="#" onclick="window.location.hash = 'home'; window.location.reload();">Home</a>
-        <a href="#" onclick="window.location.hash = 'math'; window.location.reload();">Math Section</a>
-        <a href="#" onclick="window.location.hash = 'reading_writing'; window.location.reload();">Reading and Writing Section</a>
-        <a href="#" onclick="window.location.hash = 'feedback'; window.location.reload();">User Feedback</a>
-    </div>
-    """, unsafe_allow_html=True)
-
-    page_hash = st.experimental_get_query_params().get("hash", ["home"])[0]
-    st.session_state.page = page_hash
-
+    if 'page' not in st.session_state:
+        st.session_state.page = 'home'
+    
     if st.session_state.page == 'home':
-        home_page()
+        st.header("Welcome to the SAT Study Platform")
+        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
+        
+        st.markdown("### Instructions")
+        st.markdown("""
+        1. Select the subject you want to study by clicking on the "Math" or "Reading and Writing" button.
+        2. Answer the questions presented.
+        3. View explanations after answering by clicking on "Show Explanation".
+        4. Track your progress with the progress bar at the top.
+        5. Provide feedback by clicking on the "User Feedback" button.
+        """)
+        
+        st.markdown("### Select the subject you want to study:")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("Math"):
+                st.session_state.page = 'math'
+                reset_session_state('math')
+                st.experimental_rerun()
+                
+        with col2:
+            if st.button("Reading and Writing"):
+                st.session_state.page = 'reading_writing'
+                reset_session_state('reading_writing')
+                st.experimental_rerun()
+
+        if st.button("User Feedback"):
+            st.session_state.page = 'feedback'
+            st.experimental_rerun()
+
     elif st.session_state.page == 'math':
         study_subject('math')
     elif st.session_state.page == 'reading_writing':
         study_subject('reading_writing')
     elif st.session_state.page == 'feedback':
         user_feedback()
-
-def home_page():
-    st.header("Welcome to the SAT Study Platform")
-    st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
-    
-    st.markdown("### Instructions")
-    st.markdown("""
-    1. Select the subject you want to study by clicking on the "Math" or "Reading and Writing" button.
-    2. Answer the questions presented.
-    3. View explanations after answering by clicking on "Show Explanation".
-    4. Track your progress with the progress bar at the top.
-    5. Provide feedback by clicking on the "User Feedback" button.
-    """)
-    
-    st.markdown("### Select the subject you want to study:")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        if st.button("Math"):
-            st.session_state.page = 'math'
-            reset_session_state('math')
-            st.experimental_rerun()
-            
-    with col2:
-        if st.button("Reading and Writing"):
-            st.session_state.page = 'reading_writing'
-            reset_session_state('reading_writing')
-            st.experimental_rerun()
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
@@ -298,6 +275,4 @@ def user_feedback():
         st.experimental_rerun()
 
 if __name__ == "__main__":
-    if 'page' not in st.session_state:
-        st.session_state.page = 'home'
     main()
