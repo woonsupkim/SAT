@@ -93,7 +93,7 @@ def main():
         st.session_state.subject = 'reading_writing'
     elif nav_option == "User Feedback":
         st.session_state.page = 'feedback'
-    
+
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
         st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
@@ -116,9 +116,7 @@ def main():
                 reset_session_state('reading_writing')
                 st.rerun()
 
-    elif st.session_state.page == 'math':
-        study_subject(st.session_state.subject)
-    elif st.session_state.page == 'reading_writing':
+    elif st.session_state.page == 'math' or st.session_state.page == 'reading_writing':
         study_subject(st.session_state.subject)
     elif st.session_state.page == 'feedback':
         st.header("User Feedback")
