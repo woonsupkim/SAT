@@ -6,6 +6,11 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
 import os
 
+# Debugging information to check file paths
+current_dir = os.getcwd()
+st.write(f"Current Directory: {current_dir}")
+st.write(f"Files in Current Directory: {os.listdir(current_dir)}")
+
 def load_data(subject):
     file_path = 'SAT_math.csv' if subject == 'math' else 'SAT_reading.csv'
     
