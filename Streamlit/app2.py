@@ -68,7 +68,6 @@ def main():
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            font-size: 1.2em;
         }
         .stButton button:hover {
             background-color: #2980b9;
@@ -122,7 +121,7 @@ def main():
         col1, col2 = st.columns(2)
 
         with col1:
-            if st.markdown("""
+            math_button = st.markdown("""
             <button class="subject-btn" onclick="MathSelected()">
                 <img src="https://img.icons8.com/ios-filled/50/ffffff/calculator.png" class="subject-icon"/> Math
             </button>
@@ -132,13 +131,14 @@ def main():
                 }
             </script>
             <button id="math" style="display: none;">Math</button>
-            """, unsafe_allow_html=True):
+            """, unsafe_allow_html=True)
+            if math_button:
                 st.session_state.page = 'math'
                 reset_session_state('math')
                 st.experimental_rerun()
 
         with col2:
-            if st.markdown("""
+            reading_button = st.markdown("""
             <button class="subject-btn" onclick="ReadingSelected()">
                 <img src="https://img.icons8.com/ios-filled/50/ffffff/book.png" class="subject-icon"/> Reading and Writing
             </button>
@@ -148,7 +148,8 @@ def main():
                 }
             </script>
             <button id="reading" style="display: none;">Reading and Writing</button>
-            """, unsafe_allow_html=True):
+            """, unsafe_allow_html=True)
+            if reading_button:
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
