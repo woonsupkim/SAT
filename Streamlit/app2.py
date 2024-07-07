@@ -75,14 +75,14 @@ def main():
     </style>
     """, unsafe_allow_html=True)
 
-    st.sidebar.title("Navigation")
-    nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
-
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
     if 'subject' not in st.session_state:
         st.session_state.subject = None
-    
+
+    st.sidebar.title("Navigation")
+    nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
+
     if nav_option == "Home":
         st.session_state.page = 'home'
     elif nav_option == "Math Section":
@@ -117,9 +117,9 @@ def main():
                 st.rerun()
 
     elif st.session_state.page == 'math':
-        study_subject('math')
+        study_subject(st.session_state.subject)
     elif st.session_state.page == 'reading_writing':
-        study_subject('reading_writing')
+        study_subject(st.session_state.subject)
     elif st.session_state.page == 'feedback':
         st.header("User Feedback")
         feedback = st.text_area("Please provide your feedback below:")
