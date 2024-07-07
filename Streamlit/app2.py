@@ -106,14 +106,14 @@ def main():
             if st.button("Math"):
                 st.session_state.page = 'math'
                 st.session_state.subject = 'math'
-                reset_session_state('math')
+                #reset_session_state('math')
                 st.experimental_rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
                 st.session_state.subject = 'reading_writing'
-                reset_session_state('reading_writing')
+                #reset_session_state('reading_writing')
                 st.experimental_rerun()
 
     elif st.session_state.page == 'math' or st.session_state.page == 'reading_writing':
