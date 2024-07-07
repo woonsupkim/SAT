@@ -50,6 +50,11 @@ def suggest_next_question(df, user_answers, elapsed_time):
     
     return next_question_index
 
+def format_time(seconds):
+    minutes = seconds // 60
+    seconds = seconds % 60
+    return f"{minutes:02}:{seconds:02}"
+
 def main():
     st.set_page_config(page_title="SAT Study Platform", page_icon="🎓", layout="centered")
 
@@ -81,6 +86,19 @@ def main():
         .stButton button img {
             margin-right: 10px;
         }
+        .timer {
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            background-color: #34495e;
+            width: 200px;
+            margin: 0 auto;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -99,7 +117,7 @@ def main():
         4. Track your progress with the progress bar at the top.
         5. Provide feedback by clicking on the "User Feedback" button.
         """)
-        
+
         st.markdown("### Select the subject you want to study:")
 
         col1, col2 = st.columns(2)
@@ -270,7 +288,8 @@ def study_subject(subject):
         st.session_state.elapsed_time = elapsed_time
 
     timer_placeholder = st.empty()
-    timer_placeholder.write(f"Time: {elapsed_time} seconds")
+    formatted_time = format_time(elapsed_time)
+    timer_placeholder.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
 
     if timer_running:
         time.sleep(1)
