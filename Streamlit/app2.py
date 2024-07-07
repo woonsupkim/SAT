@@ -199,6 +199,8 @@ def study_subject(subject):
     questions = st.session_state.questions
     explanations = st.session_state.explanations
     le_answer = st.session_state.le_answer
+    show_explanation = st.session_state.show_explanation
+    st.session_state.show_explanation = True
 
     current_question_index = st.session_state.current_question_index
     user_answers = st.session_state.user_answers
@@ -206,8 +208,7 @@ def study_subject(subject):
     start_time = st.session_state.start_time
     elapsed_time = st.session_state.elapsed_time
     timer_running = st.session_state.timer_running
-    show_explanation = st.session_state.show_explanation
-    st.session_state.show_explanation = True
+    
 
     # Timer display
     if timer_running:
