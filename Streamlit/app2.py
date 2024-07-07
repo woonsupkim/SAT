@@ -169,7 +169,7 @@ def study_subject(subject):
     # Progress bar
     total_questions = len(df)
     questions_answered = st.session_state.questions_answered
-    progress = (questions_answered / total_questions) * 100
+    progress = questions_answered / total_questions
     st.progress(progress)
 
     question_html = get_image_html(questions[current_question_index])
