@@ -51,13 +51,36 @@ def suggest_next_question(df, user_answers, elapsed_time):
     return next_question_index
 
 def main():
+    st.set_page_config(page_title="SAT Study Platform", page_icon="🎓", layout="centered")
+
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
     
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
-        st.markdown("Select the subject you want to study:")
+        st.markdown("""
+        <style>
+            .main {
+                background-color: #f0f2f6;
+                padding: 20px;
+            }
+            .stButton button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                margin: 10px;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+            .stButton button:hover {
+                background-color: #45a049;
+            }
+        </style>
+        """, unsafe_allow_html=True)
         
+        st.markdown("### Select the subject you want to study:")
+
         col1, col2 = st.columns(2)
 
         with col1:
