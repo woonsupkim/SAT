@@ -72,7 +72,32 @@ def main():
         .stButton button:hover {
             background-color: #2980b9;
         }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #3498db;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+        .navbar a:hover {
+            background-color: #2980b9;
+        }
     </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="navbar">
+        <a href="javascript:window.location.reload()">Home</a>
+        <a href="#" onclick="window.location.hash = 'math'; window.location.reload();">Math Section</a>
+        <a href="#" onclick="window.location.hash = 'reading_writing'; window.location.reload();">Reading and Writing Section</a>
+        <a href="#" onclick="window.location.hash = 'feedback'; window.location.reload();">User Feedback</a>
+    </div>
     """, unsafe_allow_html=True)
 
     if 'page' not in st.session_state:
@@ -106,10 +131,6 @@ def main():
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
-
-        if st.button("User Feedback"):
-            st.session_state.page = 'feedback'
-            st.experimental_rerun()
 
     elif st.session_state.page == 'math':
         study_subject('math')
@@ -275,4 +296,8 @@ def user_feedback():
         st.experimental_rerun()
 
 if __name__ == "__main__":
+    # Set page based on hash
+    page_hash = st.experimental_get_query_params().get("hash", ["home"])[0]
+    st.session_state.page = page_hash
+
     main()
