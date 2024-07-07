@@ -286,6 +286,11 @@ def handle_answer_submission(df, current_question_index, answer, elapsed_time, l
     })
     results_df.to_csv('Streamlit/user_results.csv', index=False)
 
+    if is_correct == 1:
+        st.success("Correct!")
+    else:
+        st.error("Incorrect!")
+
     st.session_state.current_question_index = suggest_next_question(df, user_answers, answer_times)
     st.session_state.start_time = time.time()
     st.session_state.elapsed_time = 0
