@@ -106,15 +106,16 @@ def main():
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
 
+        if st.button("User Feedback"):
+            st.session_state.page = 'feedback'
+            st.experimental_rerun()
+
     elif st.session_state.page == 'math':
         study_subject('math')
     elif st.session_state.page == 'reading_writing':
         study_subject('reading_writing')
     elif st.session_state.page == 'feedback':
-        st.header("User Feedback")
-        feedback = st.text_area("Please provide your feedback below:")
-        if st.button("Submit Feedback"):
-            st.success("Thank you for your feedback!")
+        user_feedback()
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
@@ -259,6 +260,17 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
+        st.experimental_rerun()
+
+def user_feedback():
+    st.header("User Feedback")
+    feedback = st.text_area("Please provide your feedback below:")
+    if st.button("Submit Feedback"):
+        with open("feedback.txt", "a") as f:
+            f.write(feedback + "\n")
+        st.success("Thank you for your feedback!")
+    if st.button("Back to Home"):
+        st.session_state.page = 'home'
         st.experimental_rerun()
 
 if __name__ == "__main__":
