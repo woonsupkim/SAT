@@ -60,13 +60,13 @@ def main():
             if st.button("Math"):
                 st.session_state.page = 'math'
                 reset_session_state('math')
-                st.rerun()
+                st.experimental_rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
-                st.rerun()
+                st.experimental_rerun()
                 
     elif st.session_state.page == 'math':
         study_subject('math')
@@ -96,7 +96,7 @@ def study_subject(subject):
 
     if st.button("Back to Home"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
     if 'current_question_index' not in st.session_state:
         reset_session_state(subject)
@@ -171,7 +171,7 @@ def study_subject(subject):
         st.session_state.elapsed_time = 0
         st.session_state.timer_running = True
         st.session_state.show_explanation = False
-        st.rerun()
+        st.experimental_rerun()
 
     if show_explanation_btn:
         st.session_state.show_explanation = True
@@ -188,7 +188,7 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
-        st.rerun()
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
