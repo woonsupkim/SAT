@@ -199,7 +199,7 @@ def study_subject(subject):
     questions = st.session_state.questions
     explanations = st.session_state.explanations
     le_answer = st.session_state.le_answer
-    show_explanation = st.session_state.show_explanation
+    #show_explanation = st.session_state.show_explanation
     st.session_state.show_explanation = True
 
     current_question_index = st.session_state.current_question_index
