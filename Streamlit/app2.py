@@ -211,6 +211,14 @@ def study_subject(subject):
     timer_running = st.session_state.timer_running
     show_explanation = st.session_state.show_explanation
 
+    # Timer display
+    if timer_running:
+        elapsed_time = int(time.time() - start_time)
+        st.session_state.elapsed_time = elapsed_time
+
+    formatted_time = format_time(elapsed_time)
+    st.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
+
     # Progress bar
     total_questions = len(df)
     questions_answered = st.session_state.questions_answered
@@ -282,14 +290,6 @@ def study_subject(subject):
 
     if show_explanation:
         st.markdown(explanation_html, unsafe_allow_html=True)
-
-    if timer_running:
-        elapsed_time = int(time.time() - start_time)
-        st.session_state.elapsed_time = elapsed_time
-
-    timer_placeholder = st.empty()
-    formatted_time = format_time(elapsed_time)
-    timer_placeholder.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
 
     if timer_running:
         time.sleep(1)
