@@ -80,7 +80,7 @@ def main():
     if 'subject' not in st.session_state:
         st.session_state.subject = None
 
-    # Navigation bar
+    # Sidebar
     st.sidebar.title("Navigation")
     nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
 
@@ -94,8 +94,10 @@ def main():
         st.session_state.subject = 'reading_writing'
     elif nav_option == "User Feedback":
         st.session_state.page = 'feedback'
+    
+    st.sidebar.title("Additional Options")
+    st.sidebar.markdown("Use this sidebar for additional options and information.")
 
-    # Home page
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
         st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
@@ -123,12 +125,10 @@ def main():
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
 
-    # Study section
     elif st.session_state.page == 'math' or st.session_state.page == 'reading_writing':
         if st.session_state.subject:
             study_subject(st.session_state.subject)
     
-    # Feedback section
     elif st.session_state.page == 'feedback':
         st.header("User Feedback")
         feedback = st.text_area("Please provide your feedback below:")
@@ -178,7 +178,6 @@ def study_subject(subject):
     else:
         st.title("Reading and Writing Section")
 
-    # Progress bar
     progress = int((st.session_state.questions_answered / len(st.session_state.df)) * 100)
     st.progress(progress)
 
