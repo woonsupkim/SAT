@@ -76,9 +76,11 @@ def main():
     """, unsafe_allow_html=True)
 
     st.sidebar.title("Navigation")
-    st.sidebar.markdown("Use the navigation below to switch between sections.")
     nav_option = st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"])
 
+    if 'page' not in st.session_state:
+        st.session_state.page = 'home'
+    
     if nav_option == "Home":
         st.session_state.page = 'home'
     elif nav_option == "Math Section":
