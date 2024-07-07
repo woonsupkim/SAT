@@ -80,7 +80,15 @@ def main():
     
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
-        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs..")
+        st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
+        
+        st.markdown("### Instructions")
+        st.markdown("""
+        1. Select the subject you want to study.
+        2. Answer the questions presented.
+        3. View explanations after answering.
+        4. Use the navigation bar to switch sections or provide feedback.
+        """)
         
         st.markdown("### Select the subject you want to study:")
 
@@ -97,11 +105,19 @@ def main():
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
                 st.experimental_rerun()
-                
+
+        st.sidebar.title("Navigation")
+        st.sidebar.radio("Go to", ["Home", "Math Section", "Reading and Writing Section", "User Feedback"], index=0)
+
     elif st.session_state.page == 'math':
         study_subject('math')
     elif st.session_state.page == 'reading_writing':
         study_subject('reading_writing')
+    elif st.session_state.page == 'feedback':
+        st.header("User Feedback")
+        feedback = st.text_area("Please provide your feedback below:")
+        if st.button("Submit Feedback"):
+            st.success("Thank you for your feedback!")
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
