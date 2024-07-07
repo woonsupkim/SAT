@@ -56,11 +56,12 @@ def main():
     st.markdown("""
     <style>
         .main {
-            background-color: #f0f8ff;
+            background-color: #2c3e50;
+            color: #ecf0f1;
             padding: 20px;
         }
         .stButton button {
-            background-color: #4CAF50;
+            background-color: #3498db;
             color: white;
             padding: 10px 20px;
             margin: 10px;
@@ -69,7 +70,7 @@ def main():
             border-radius: 5px;
         }
         .stButton button:hover {
-            background-color: #45a049;
+            background-color: #2980b9;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -88,13 +89,13 @@ def main():
             if st.button("Math"):
                 st.session_state.page = 'math'
                 reset_session_state('math')
-                st.experimental_rerun()
+                st.rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
                 reset_session_state('reading_writing')
-                st.experimental_rerun()
+                st.rerun()
                 
     elif st.session_state.page == 'math':
         study_subject('math')
@@ -117,6 +118,28 @@ def reset_session_state(subject):
     st.session_state.questions_answered = 0
 
 def study_subject(subject):
+    st.markdown("""
+    <style>
+        .main {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+        }
+        .stButton button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .stButton button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     if subject == 'math':
         st.title("Math Section")
     else:
@@ -124,7 +147,7 @@ def study_subject(subject):
 
     if st.button("Back to Home"):
         st.session_state.page = 'home'
-        st.experimental_rerun()
+        st.rerun()
 
     if 'current_question_index' not in st.session_state:
         reset_session_state(subject)
@@ -199,7 +222,7 @@ def study_subject(subject):
         st.session_state.elapsed_time = 0
         st.session_state.timer_running = True
         st.session_state.show_explanation = False
-        st.experimental_rerun()
+        st.rerun()
 
     if show_explanation_btn:
         st.session_state.show_explanation = True
@@ -216,7 +239,7 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
-        st.experimental_rerun()
+        st.rerun()
 
 if __name__ == "__main__":
     main()
