@@ -87,16 +87,16 @@ def main():
             margin-right: 10px;
         }
         .timer {
-            font-size: 48px;
+            font-size: 24px;
             font-weight: bold;
             font-family: 'Courier New', Courier, monospace;
             color: #ecf0f1;
             text-align: center;
-            padding: 20px;
+            padding: 5px;
             border: 2px solid #3498db;
             border-radius: 10px;
             background-color: #34495e;
-            width: 200px;
+            width: 150px;
             margin: 0 auto;
         }
     </style>
