@@ -124,7 +124,7 @@ def reset_session_state(subject):
     st.session_state.start_time = time.time()
     st.session_state.elapsed_time = 0
     st.session_state.timer_running = True
-    st.session_state.show_explanation = False
+    st.session_state.show_explanation = True
     st.session_state.questions_answered = 0
 
 def display_home():
@@ -200,7 +200,6 @@ def study_subject(subject):
     explanations = st.session_state.explanations
     le_answer = st.session_state.le_answer
     show_explanation = st.session_state.show_explanation
-    st.session_state.show_explanation = True
 
     current_question_index = st.session_state.current_question_index
     user_answers = st.session_state.user_answers
@@ -208,7 +207,6 @@ def study_subject(subject):
     start_time = st.session_state.start_time
     elapsed_time = st.session_state.elapsed_time
     timer_running = st.session_state.timer_running
-    
 
     # Timer display
     if timer_running:
@@ -234,29 +232,24 @@ def study_subject(subject):
         answer = st.text_input("Your Answer:", value="", key="answer_input")
         submit = st.form_submit_button("Submit 📨")
 
-    #show_explanation_btn = st.button("Show Explanation 📜", key="show_explanation_btn")
-
     if submit:
         handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer)
         st.experimental_rerun()
 
-    # if show_explanation_btn:
-    #     st.session_state.show_explanation = True
-
     if show_explanation:
-        with st.expander("Explanation"):
+        with st.expander("Explanation", expanded=True):
             st.markdown(explanation_html, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous Question"):
             st.session_state.current_question_index = (current_question_index - 1) % len(df)
-            st.session_state.show_explanation = False
+            st.session_state.show_explanation = True
             st.experimental_rerun()
     with col2:
         if st.button("Next Question"):
             st.session_state.current_question_index = (current_question_index + 1) % len(df)
-            st.session_state.show_explanation = False
+            st.session_state.show_explanation = True
             st.experimental_rerun()
 
     if timer_running:
@@ -310,7 +303,7 @@ def handle_answer_submission(df, current_question_index, answer, elapsed_time, l
     st.session_state.start_time = time.time()
     st.session_state.elapsed_time = 0
     st.session_state.timer_running = True
-    st.session_state.show_explanation = False
+    st.session_state.show_explanation = True
 
 def retrain_model_if_needed():
     if len(st.session_state.y_train.unique()) > 1:
