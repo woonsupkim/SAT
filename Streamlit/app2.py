@@ -199,7 +199,8 @@ def study_subject(subject):
     questions = st.session_state.questions
     explanations = st.session_state.explanations
     le_answer = st.session_state.le_answer
-    
+    show_explanation = st.session_state.show_explanation
+    st.session_state.show_explanation = True
 
     current_question_index = st.session_state.current_question_index
     user_answers = st.session_state.user_answers
@@ -232,8 +233,6 @@ def study_subject(subject):
     with st.form(key='answer_form'):
         answer = st.text_input("Your Answer:", value="", key="answer_input")
         submit = st.form_submit_button("Submit 📨")
-        show_explanation = st.session_state.show_explanation
-        st.session_state.show_explanation = True
 
     #show_explanation_btn = st.button("Show Explanation 📜", key="show_explanation_btn")
 
