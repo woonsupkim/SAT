@@ -93,7 +93,7 @@ def main():
         st.session_state.subject = 'reading_writing'
     elif nav_option == "User Feedback":
         st.session_state.page = 'feedback'
-
+    
     if st.session_state.page == 'home':
         st.header("Welcome to the SAT Study Platform")
         st.markdown("This SAT study platform presents questions with images, tracks time spent, records answers, and provides explanations. It uses a machine learning model to suggest the next question based on user performance, adapting to individual learning needs.")
@@ -107,14 +107,14 @@ def main():
                 st.session_state.page = 'math'
                 st.session_state.subject = 'math'
                 reset_session_state('math')
-                st.rerun()
+                st.experimental_rerun()
                 
         with col2:
             if st.button("Reading and Writing"):
                 st.session_state.page = 'reading_writing'
                 st.session_state.subject = 'reading_writing'
                 reset_session_state('reading_writing')
-                st.rerun()
+                st.experimental_rerun()
 
     elif st.session_state.page == 'math' or st.session_state.page == 'reading_writing':
         study_subject(st.session_state.subject)
@@ -171,7 +171,7 @@ def study_subject(subject):
 
     if st.button("Back to Home"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
     if 'current_question_index' not in st.session_state or st.session_state.subject != subject:
         reset_session_state(subject)
@@ -246,7 +246,7 @@ def study_subject(subject):
         st.session_state.elapsed_time = 0
         st.session_state.timer_running = True
         st.session_state.show_explanation = False
-        st.rerun()
+        st.experimental_rerun()
 
     if show_explanation_btn:
         st.session_state.show_explanation = True
@@ -263,7 +263,7 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
-        st.rerun()
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
