@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
 import os
+import plotly.graph_objects as go
 
 def load_data(subject):
     file_path = f'Streamlit/SAT_{subject}.csv'
@@ -284,6 +285,8 @@ def study_subject(subject):
         time.sleep(1)
         st.rerun()
 
+    # Display Radar Chart
+    display_radar_chart(df, user_answers)
 
 def handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer):
     user_answers = st.session_state.user_answers
@@ -342,6 +345,41 @@ def retrain_model_if_needed():
         st.session_state.model.fit(st.session_state.X_train, st.session_state.y_train)
     else:
         st.warning("Not enough variability in the target variable to retrain the model.")
+
+def display_radar_chart(df, user_answers):
+    skill_performance = {skill: [0, 0] for skill in df['Skill'].unique()}
+    
+    for index, answer in enumerate(user_answers):
+        skill = df.loc[index, 'Skill']
+        if answer:
+            correct_answer = df.loc[index, 'Correct Answer Encoded']
+            user_answer = st.session_state.le_answer.transform([answer.strip().lower()])[0]
+            if user_answer == correct_answer:
+                skill_performance[skill][0] += 1
+            skill_performance[skill][1] += 1
+
+    skills = list(skill_performance.keys())
+    scores = [skill_performance[skill][0] / skill_performance[skill][1] if skill_performance[skill][1] > 0 else 0 for skill in skills]
+    
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatterpolar(
+        r=scores,
+        theta=skills,
+        fill='toself',
+        name='Performance'
+    ))
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 1]
+            )),
+        showlegend=False
+    )
+
+    st.plotly_chart(fig)
 
 def user_feedback():
     st.header("User Feedback")
