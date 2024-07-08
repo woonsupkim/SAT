@@ -75,7 +75,7 @@ def main():
             border-radius: 10px;
             font-size: 18px;
             display: flex;
-            align-items: center;
+            align-items: center.
         }
         .stButton button:hover {
             background-color: #2980b9;
