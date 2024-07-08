@@ -183,6 +183,25 @@ def study_subject(subject):
         .stButton button:hover {
             background-color: #2980b9;
         }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 5px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            background-color: #34495e;
+            width: 150px;
+            margin: 0 auto;
+        }
+        .button-timer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
     </style>
     """, unsafe_allow_html=True)
     
@@ -214,7 +233,27 @@ def study_subject(subject):
         st.session_state.elapsed_time = elapsed_time
 
     formatted_time = format_time(elapsed_time)
-    st.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
+
+    # Create container for buttons and timer
+    st.markdown('<div class="button-timer-container">', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col1:
+        if st.button("Previous Question"):
+            st.session_state.current_question_index = (current_question_index - 1) % len(df)
+            st.session_state.show_explanation = True
+            st.experimental_rerun()
+            
+    with col2:
+        st.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
+    
+    with col3:
+        if st.button("Next Question"):
+            st.session_state.current_question_index = (current_question_index + 1) % len(df)
+            st.session_state.show_explanation = True
+            st.experimental_rerun()
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # Progress bar
     total_questions = len(df)
@@ -240,21 +279,10 @@ def study_subject(subject):
         with st.expander("Explanation", expanded=False):
             st.markdown(explanation_html, unsafe_allow_html=True)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Previous Question"):
-            st.session_state.current_question_index = (current_question_index - 1) % len(df)
-            st.session_state.show_explanation = True
-            st.experimental_rerun()
-    with col2:
-        if st.button("Next Question"):
-            st.session_state.current_question_index = (current_question_index + 1) % len(df)
-            st.session_state.show_explanation = True
-            st.experimental_rerun()
-
     if timer_running:
         time.sleep(1)
         st.experimental_rerun()
+
 
 def handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer):
     user_answers = st.session_state.user_answers
