@@ -44,7 +44,7 @@ def suggest_next_question(df, user_answers, elapsed_time):
 
         probabilities = st.session_state.model.predict_proba(potential_questions_scaled)
         if probabilities.shape[1] > 1:
-            next_question_index = np.argmin(np.abs(probabilities[:, 1] - 0.5))
+            next_question_index = np.argmax(probabilities[:, 1])
         else:
             next_question_index = np.random.randint(0, len(df))
     else:
@@ -77,7 +77,7 @@ def main():
             border-radius: 10px;
             font-size: 18px;
             display: flex;
-            align-items: center;
+            align-items: center.
         }
         .stButton button:hover {
             background-color: #2980b9;
