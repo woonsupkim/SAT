@@ -75,16 +75,10 @@ def main():
             border-radius: 10px;
             font-size: 18px;
             display: flex;
-            align-items: center;
+            align-items: center.
         }
         .stButton button:hover {
             background-color: #2980b9;
-        }
-        .stProgress > div > div > div > div {
-            background-color: #3498db;
-        }
-        .stButton button img {
-            margin-right: 10px;
         }
         .timer {
             font-size: 24px;
@@ -98,6 +92,12 @@ def main():
             background-color: #34495e;
             width: 150px;
             margin: 0 auto;
+        }
+        .button-timer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
         h1, h2, h3, h4, h5, h6, p, div, span, li, ul, ol, button, input, select, option, textarea, label, a, .stTextInput > div > div > div > input {
             color: white !important;
@@ -288,7 +288,6 @@ def study_subject(subject):
     if timer_running:
         time.sleep(1)
         st.experimental_rerun()
-
 
 def handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer):
     user_answers = st.session_state.user_answers
