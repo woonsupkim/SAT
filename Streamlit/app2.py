@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 def load_data(subject):
-    file_path = f'Streamlit/SAT_{subject}.csv'
+    file_path = 'Streamlit/SAT_math.csv' if subject == 'math' else 'Streamlit/SAT_reading.csv'
     
     if not os.path.isfile(file_path):
         st.error(f"File {file_path} not found. Please ensure the file is uploaded.")
@@ -31,7 +31,6 @@ def load_data(subject):
 
     return df, questions, explanations, le_answer
 
-@st.cache_data
 def get_image_html(base64_str):
     return f'<img src="{base64_str}" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 10px; background-color: #fff;">'
 
@@ -149,17 +148,17 @@ def display_home():
         if st.button("Math 🧮"):
             st.session_state.page = 'math'
             reset_session_state('math')
-            st.rerun()
+            st.experimental_rerun()
             
     with col2:
         if st.button("Reading and Writing 📖"):
             st.session_state.page = 'reading_writing'
             reset_session_state('reading_writing')
-            st.rerun()
+            st.experimental_rerun()
 
     if st.button("User Feedback 📝"):
         st.session_state.page = 'feedback'
-        st.rerun()
+        st.experimental_rerun()
 
 def study_subject(subject):
     st.markdown("""
@@ -210,7 +209,7 @@ def study_subject(subject):
 
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
     if 'current_question_index' not in st.session_state:
         reset_session_state(subject)
@@ -243,7 +242,7 @@ def study_subject(subject):
         if st.button("Previous Question"):
             st.session_state.current_question_index = (current_question_index - 1) % len(df)
             st.session_state.show_explanation = True
-            st.rerun()
+            st.experimental_rerun()
             
     with col2:
         st.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
@@ -252,7 +251,7 @@ def study_subject(subject):
         if st.button("Next Question"):
             st.session_state.current_question_index = (current_question_index + 1) % len(df)
             st.session_state.show_explanation = True
-            st.rerun()
+            st.experimental_rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -274,7 +273,7 @@ def study_subject(subject):
 
     if submit:
         handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer)
-        st.rerun()
+        st.experimental_rerun()
 
     if show_explanation:
         with st.expander("Explanation", expanded=False):
@@ -282,7 +281,7 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
-        st.rerun()
+        st.experimental_rerun()
 
 
 def handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer):
@@ -377,7 +376,7 @@ def user_feedback():
 
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
