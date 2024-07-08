@@ -99,6 +99,9 @@ def main():
             width: 150px;
             margin: 0 auto;
         }
+        h1, h2, h3, h4, h5, h6 {
+            color: white !important;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -201,6 +204,9 @@ def study_subject(subject):
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: white !important;
         }
     </style>
     """, unsafe_allow_html=True)
