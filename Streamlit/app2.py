@@ -5,6 +5,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
 import os
+import matplotlib.pyplot as plt
+from math import pi
 
 def load_data(subject):
     file_path = 'Streamlit/SAT_math.csv' if subject == 'math' else 'Streamlit/SAT_reading.csv'
@@ -54,6 +56,23 @@ def format_time(seconds):
     minutes = seconds // 60
     seconds = seconds % 60
     return f"{minutes:02}:{seconds:02}"
+
+def create_radar_chart(data, categories, title):
+    N = len(categories)
+    angles = [n / float(N) * 2 * pi for n in range(N)]
+    angles += angles[:1]
+
+    data += data[:1]
+
+    plt.figure(figsize=(6, 6))
+    ax = plt.subplot(111, polar=True)
+    plt.xticks(angles[:-1], categories)
+
+    ax.plot(angles, data, linewidth=1, linestyle='solid')
+    ax.fill(angles, data, 'b', alpha=0.1)
+
+    plt.title(title, size=20, color='b', y=1.1)
+    st.pyplot(plt)
 
 def main():
     st.set_page_config(page_title="SAT Study Platform", page_icon="🎓", layout="centered")
@@ -114,6 +133,8 @@ def main():
         study_subject(st.session_state.page)
     elif st.session_state.page == 'feedback':
         user_feedback()
+    elif st.session_state.page == 'radar_chart':
+        display_radar_chart()
 
 def reset_session_state(subject):
     df, questions, explanations, le_answer = load_data(subject)
@@ -161,6 +182,10 @@ def display_home():
 
     if st.button("User Feedback 📝"):
         st.session_state.page = 'feedback'
+        st.experimental_rerun()
+
+    if st.button("View Radar Chart 📊"):
+        st.session_state.page = 'radar_chart'
         st.experimental_rerun()
 
 def study_subject(subject):
@@ -378,6 +403,33 @@ def user_feedback():
         with open("feedback.txt", "a") as f:
             f.write(str(feedback_data) + "\n")
         st.success("Thank you for your feedback!")
+
+    if st.button("Back to Home 🏠"):
+        st.session_state.page = 'home'
+        st.experimental_rerun()
+
+def display_radar_chart():
+    st.header("User Skills Radar Chart")
+
+    if 'user_answers' not in st.session_state or 'df' not in st.session_state:
+        st.warning("No data available to display the radar chart. Please answer some questions first.")
+        if st.button("Back to Home 🏠"):
+            st.session_state.page = 'home'
+            st.experimental_rerun()
+        return
+
+    df = st.session_state.df
+    user_answers = st.session_state.user_answers
+    skills = df['Skill'].unique()
+    skill_names = [f'Skill {i}' for i in skills]
+
+    correct_answers = []
+    for skill in skills:
+        correct_count = sum((df['Skill'] == skill) & (df['Correct Answer'] == user_answers))
+        total_count = sum(df['Skill'] == skill)
+        correct_answers.append(correct_count / total_count if total_count > 0 else 0)
+
+    create_radar_chart(correct_answers, skill_names, "User Skills")
 
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
