@@ -5,8 +5,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import numpy as np
 import os
-import matplotlib.pyplot as plt
-from math import pi
 
 def load_data(subject):
     file_path = 'Streamlit/SAT_math.csv' if subject == 'math' else 'Streamlit/SAT_reading.csv'
@@ -179,7 +177,7 @@ def study_subject(subject):
             padding: 15px 30px;
             margin: 10px;
             border: none;
-            cursor: pointer.
+            cursor: pointer;
             border-radius: 10px;
             font-size: 18px;
             display: flex;
@@ -199,16 +197,16 @@ def study_subject(subject):
             border-radius: 10px;
             background-color: #34495e;
             width: 150px;
-            margin: 0 auto.
+            margin: 0 auto;
         }
         .button-timer-container {
             display: flex;
             justify-content: space-between;
-            align-items: center.
-            margin-bottom: 20px.
+            align-items: center;
+            margin-bottom: 20px;
         }
         h1, h2, h3, h4, h5, h6, p, div, span, li, ul, ol, button, input, select, option, textarea, label, a, .stTextInput > div > div > div > input {
-            color: white !important.
+            color: white !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -385,33 +383,5 @@ def user_feedback():
         st.session_state.page = 'home'
         st.experimental_rerun()
 
-def display_radar_chart():
-    st.header("User Strengths and Weaknesses")
-
-    categories = ["Dealing with People", "Explaining Thoughts", "Leadership", "Humor", "Detail-Oriented"]
-    values = [8, 7, 6, 9, 7]
-    max_value = 10
-
-    N = len(categories)
-
-    angles = [n / float(N) * 2 * pi for n in range(N)]
-    values += values[:1]
-    angles += angles[:1]
-
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-    ax.set_theta_offset(pi / 2)
-    ax.set_theta_direction(-1)
-
-    plt.xticks(angles[:-1], categories)
-    ax.plot(angles, values, linewidth=1, linestyle='solid')
-    ax.fill(angles, values, 'b', alpha=0.1)
-
-    plt.yticks([2, 4, 6, 8, 10], [2, 4, 6, 8, 10], color="grey", size=7)
-    plt.ylim(0, max_value)
-
-    st.pyplot(fig)
-
 if __name__ == "__main__":
     main()
-    if st.session_state.page == 'home':
-        display_radar_chart()
