@@ -99,7 +99,7 @@ def main():
             width: 150px;
             margin: 0 auto;
         }
-        h1, h2, h3, h4, h5, h6 {
+        h1, h2, h3, h4, h5, h6, p, div, span, li, ul, ol, button, input, select, option, textarea, label, a, .stTextInput > div > div > div > input {
             color: white !important;
         }
     </style>
@@ -205,7 +205,7 @@ def study_subject(subject):
             align-items: center;
             margin-bottom: 20px;
         }
-        h1, h2, h3, h4, h5, h6 {
+        h1, h2, h3, h4, h5, h6, p, div, span, li, ul, ol, button, input, select, option, textarea, label, a, .stTextInput > div > div > div > input {
             color: white !important;
         }
     </style>
