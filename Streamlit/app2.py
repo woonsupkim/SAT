@@ -32,7 +32,7 @@ def load_data(subject):
 
     return df, questions, explanations, le_answer
 
-@st.cache_data
+@st.cache
 def get_image_html(base64_str):
     return f'<img src="{base64_str}" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 10px; background-color: #fff;">'
 
