@@ -72,7 +72,9 @@ def create_radar_chart(data, categories, title):
     ax.fill(angles, data, 'b', alpha=0.1)
 
     plt.title(title, size=20, color='b', y=1.1)
-    st.pyplot(plt)
+
+    plt.savefig('radar_chart.png')  # Save the plot as an image
+    st.image('radar_chart.png')  # Display the saved image in Streamlit
 
 def main():
     st.set_page_config(page_title="SAT Study Platform", page_icon="🎓", layout="centered")
