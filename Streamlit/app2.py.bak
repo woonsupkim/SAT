@@ -174,21 +174,21 @@ def display_home():
         if st.button("Math 🧮"):
             st.session_state.page = 'math'
             reset_session_state('math')
-            st.rerun()
+            st.experimental_rerun()
             
     with col2:
         if st.button("Reading and Writing 📖"):
             st.session_state.page = 'reading_writing'
             reset_session_state('reading_writing')
-            st.rerun()
+            st.experimental_rerun()
 
     if st.button("User Feedback 📝"):
         st.session_state.page = 'feedback'
-        st.rerun()
+        st.experimental_rerun()
 
     if st.button("View Radar Chart 📊"):
         st.session_state.page = 'radar_chart'
-        st.rerun()
+        st.experimental_rerun()
 
 def study_subject(subject):
     st.markdown("""
@@ -242,7 +242,7 @@ def study_subject(subject):
 
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
     if 'current_question_index' not in st.session_state:
         reset_session_state(subject)
@@ -275,7 +275,7 @@ def study_subject(subject):
         if st.button("Previous Question"):
             st.session_state.current_question_index = (current_question_index - 1) % len(df)
             st.session_state.show_explanation = True
-            st.rerun()
+            st.experimental_rerun()
             
     with col2:
         st.markdown(f'<div class="timer">Time: {formatted_time}</div>', unsafe_allow_html=True)
@@ -284,7 +284,7 @@ def study_subject(subject):
         if st.button("Next Question"):
             st.session_state.current_question_index = (current_question_index + 1) % len(df)
             st.session_state.show_explanation = True
-            st.rerun()
+            st.experimental_rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -306,7 +306,7 @@ def study_subject(subject):
 
     if submit:
         handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer)
-        st.rerun()
+        st.experimental_rerun()
 
     if show_explanation:
         with st.expander("Explanation", expanded=False):
@@ -314,7 +314,7 @@ def study_subject(subject):
 
     if timer_running:
         time.sleep(1)
-        st.rerun()
+        st.experimental_rerun()
 
 def handle_answer_submission(df, current_question_index, answer, elapsed_time, le_answer):
     user_answers = st.session_state.user_answers
@@ -408,7 +408,7 @@ def user_feedback():
 
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
 def display_radar_chart():
     st.header("User Skills Radar Chart")
@@ -417,7 +417,7 @@ def display_radar_chart():
         st.warning("No data available to display the radar chart. Please answer some questions first.")
         if st.button("Back to Home 🏠"):
             st.session_state.page = 'home'
-            st.rerun()
+            st.experimental_rerun()
         return
 
     df = st.session_state.df
@@ -435,7 +435,7 @@ def display_radar_chart():
 
     if st.button("Back to Home 🏠"):
         st.session_state.page = 'home'
-        st.rerun()
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
